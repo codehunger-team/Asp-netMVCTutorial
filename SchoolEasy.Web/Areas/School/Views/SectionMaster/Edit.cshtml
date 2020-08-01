@@ -1,0 +1,79 @@
+﻿@model SchoolEasy.Web.Areas.School.Models.SectionMasterModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Section Master</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                @using (Html.BeginForm("Edit", "SectionMaster", new { area = "School" }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.SectionId)
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>Select Course</label>
+                            @Html.DropDownList("CourseId", null, "Select Course", htmlAttributes: new { @class = "form-control", @onchange = "BindClass()" })
+                            @Html.ValidationMessageFor(m => m.CourseId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label>Select Class</label>
+                            @Html.DropDownList("ClassId", null, "Select Class", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ClassId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label>Section Name</label>
+                            @Html.EditorFor(m => m.SectionName, new { htmlAttributes = new { @placeholder = "Enter Section Name", @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => m.SectionName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <a href="@Url.Action("Index","SectionMaster",new { area = "School"})" class="btn bg-maroon margin">Back to List</a>
+                    </div>
+                }
+            </div>
+            <!-- /.box -->
+        </div>
+        <!--/.col (left) -->
+    </div>
+    <!-- /.row -->
+
+
+</section>
+
+
+<script type="text/javascript">
+     function BindClass() {
+    var CourseId = $('#CourseId').val();
+    //alert(course_code);
+    $.ajax({
+    url: '@Url.Action("FillClass", "SectionMaster", new { area = "School" })',
+    type: "GET",
+    dataType: "JSON",
+    data: { CourseId: CourseId },
+    success: function (classes) {
+    $("#ClassId").html("");
+    var optionhtml1 = '<option value="">' + "--Select Class--" + '</option>';
+    $("#ClassId").append(optionhtml1);
+    $.each(classes, function (i) {
+    var optionhtml = '<option value="' + classes[i].Value + '">' + classes[i].Text + '</option>';
+    $("#ClassId").append(optionhtml);
+    });
+    }
+    });
+    }
+</script>
+
+
+

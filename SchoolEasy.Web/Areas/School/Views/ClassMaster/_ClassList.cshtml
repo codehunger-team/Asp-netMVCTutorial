@@ -1,0 +1,29 @@
+﻿@model SchoolEasy.Web.Areas.School.Models.ClassMasterModel
+
+@if (Model.ClassList != null && Model.ClassList.Count > 0)
+{
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Class Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.ClassList.Count; i++)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(model => model.ClassList[i].CourseName)</td>
+                        <td>@Html.DisplayFor(model => model.ClassList[i].ClassName)</td>
+                        <td>
+                            <a href="#" class="btn btn-warning" onclick="EditClass(@Model.ClassList[i].Id)"><i class="fa fa-pencil"></i></a>&nbsp;
+                            <a href="#" class="btn btn-danger" onclick="DeleteClass(@Model.ClassList[i].Id)"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

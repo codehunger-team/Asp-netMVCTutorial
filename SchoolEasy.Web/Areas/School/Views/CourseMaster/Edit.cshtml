@@ -1,0 +1,41 @@
+﻿@model SchoolEasy.Web.Areas.School.Models.CourseMasterModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Course Master</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                @using (Html.BeginForm("Edit", "CourseMaster", new { area = "School" }, FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m=>m.CourseId)
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>Course Name</label>
+                            @Html.EditorFor(m => m.CourseName, new { htmlAttributes = new { @placeholder = "Enter Course Name" } })
+                            @Html.ValidationMessageFor(m => m.CourseName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <a href="@Url.Action("Index","CourseMaster",new { area = "School"})" class="btn bg-maroon margin">Back to List</a>
+                    </div>
+                }
+            </div>
+            <!-- /.box -->
+        </div>
+        <!--/.col (left) -->
+    </div>
+    <!-- /.row -->
+</section>

@@ -1,0 +1,193 @@
+﻿@model SchoolEasy.Web.Areas.School.Models.ClassMasterModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Class Master</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                @using (Html.BeginForm("Index", "ClassMaster", FormMethod.Post, new { area = "School", @id = "frm_Class" }))
+                {
+                    <div id="formbody">
+                        @Html.AntiForgeryToken()
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label>Select Course Name</label>
+                                @Html.HiddenFor(m => m.Id)
+                                @Html.DropDownList("CourseId", null, "Select Course", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.CourseId, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                <label>Class Name</label>
+                                @Html.EditorFor(m => m.ClassName, new { htmlAttributes = new { @placeholder = "Enter Class Name" ,@class="form-control"} })
+                                @Html.ValidationMessageFor(m => m.ClassName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div id="TableCLass" style="display:none;">
+                        @Html.Partial("_ClassList", @Model)
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <a href="#" id="btnsave" onclick="return SaveClass()" class="btn-success btn-sm" data-toggle="tooltip" title="Save"> <i class="fa fa-save "></i> <span>Save</span></a>
+                        <a href="#" id="btnedit" onclick="return UpdateClass()" class="btn-success btn-sm hidden" data-toggle="tooltip" title="Update"> <i class="fa fa-save "></i> <span>Update</span></a>
+                        <a href="#" onclick="return ViewClassList()" class="btn-primary btn-sm" data-toggle="tooltip" title="View"> <i class="fa fa-list-ul "></i> <span>View</span></a>
+                        <a href="#" onclick="return Clear()" class="btn-default btn-sm" data-toggle="tooltip" title="Clear"> <i class="fa fa-eraser "></i> <span>Clear</span></a>
+                    </div>
+                }
+            </div>
+            <!-- /.box -->
+        </div>
+        <!--/.col (left) -->
+    </div>
+    <!-- /.row -->
+</section>
+
+
+<script>
+    function SaveClass() {
+        var formdata = $('#frm_Class').get(0);
+        var data = new FormData(formdata);
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("SaveClass", "ClassMaster",new { area="School"})',
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (Result) {
+                if (Result.IsSuccess) {
+                    swal(Result.msg,"", "success");
+                    $('#ClassName').val('');
+                    $('#Id').val('');
+                    $('#CLassName').val('');
+                    $("#CourseId").prop('selectedIndex', 0);
+                }
+                else {
+                    swal(Result.msg, "warning")
+                }
+            },
+            error: function (Error) {
+
+            }
+
+        })
+    }
+
+    function UpdateClass() {
+        var formdata = $('#frm_Class').get(0);
+        var data = new FormData(formdata);
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("UpdateClass", "ClassMaster",new { area="School"})',
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (Result) {
+                if (Result.isSuccess) {
+                    swal(Result.message,"", "success");
+                    $('#ClassName').val('');
+                    $('#Id').val('');
+                    $('#CLassName').val('');
+                    $("#CourseId").prop('selectedIndex', 0);
+                    $('#btnsave').show();
+                    $('#btnedit').addClass("hidden");
+                    $('#btnedit').hide();
+                }
+                else {
+                    swal(Result.message, "warning")
+                }
+            },
+            error: function (Error) {
+
+            }
+
+        })
+    }
+
+    function ViewClassList() {
+        $('#formbody').hide();
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("ViewClassList", "ClassMaster",new { area="School"})',
+            success: function (Result) {
+                $('#TableCLass').show();
+                $('#TableCLass').html('');
+                $('#TableCLass').html(Result);
+            },
+            error: function (Error) {
+
+            }
+
+        })
+    }
+
+    function EditClass(id) {
+        $('#TableCLass').hide();
+        $('#formbody').show();
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("EditCLass", "ClassMaster",new { area="School"})',
+            datatype: "JSON",
+            data: { id: id },
+            success: function (Result) {
+                debugger
+                $('#Id').val(Result.Id);
+                $('#ClassName').val(Result.ClassName);
+                $("#CourseId").val(Result.CourseId);
+                $('#btnsave').hide();
+                $('#btnedit').removeClass("hidden");
+                $('#btnedit').show();
+            },
+            error: function (Error) {
+
+            }
+
+        })
+    }
+
+    function DeleteClass(id) {
+        $('#TableCLass').hide();
+        $('#formbody').show();
+        var id = id;
+        var flag = confirm('Are you sure you want to delete this record?')
+        if (flag) {
+            $.ajax({
+                url: '@Url.Action("DeleteClass", "ClassMaster",new {area="School"})',
+                type: "GET",
+                datatype: "JSON",
+                data: { id: id },
+                success: function (Result) {
+                    if (Result.isSuccess) {
+                        swal(Result.message, "", "success");
+                        $('#TableCLass').html('');
+                    }
+                    else {
+                        swal(Result.message, "", "error");
+                        $('#TableCLass').html('');
+                    }
+                }
+            })
+        }
+    }
+
+    function Clear() {
+        $('#ClassName').val('');
+        $('#Id').val('');
+        $('#CLassName').val('');
+        $("#CourseId").prop('selectedIndex', 0);
+        $('#btnsave').show();
+        $('#btnedit').addClass("hidden");
+        $('#btnedit').hide();
+        $('#TableCLass').hide();
+        $('#formbody').show();
+    }
+</script>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0dc74397b9ce4fa293aa49504ccab1ca" Name="Diagram1">
+        <EntityTypeShape EntityType="SchoolModel.tb_Login" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolModel.tb_SchoolRegister" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SchoolModel.ClassMaster" Width="1.5" PointX="3" PointY="3.875" />
+        <EntityTypeShape EntityType="SchoolModel.CourseMaster" Width="1.5" PointX="0.75" PointY="3.875" />
+        <AssociationConnector Association="SchoolModel.FK_ClassMaster_CourseMaster" />
+        <EntityTypeShape EntityType="SchoolModel.SectionMaster" Width="1.5" PointX="5.25" PointY="8.25" />
+        <AssociationConnector Association="SchoolModel.FK_SectionMaster_ClassMaster" />
+        <EntityTypeShape EntityType="SchoolModel.RegistrationAmountMaster" Width="1.5" PointX="3" PointY="8" />
+        <AssociationConnector Association="SchoolModel.FK_RegistrationAmountMaster_CourseMaster" />
+        <EntityTypeShape EntityType="SchoolModel.RegistrationMaster" Width="1.5" PointX="5.25" PointY="3.25" />
+        <AssociationConnector Association="SchoolModel.FK_RegistrationMaster_ClassMaster" />
+        <AssociationConnector Association="SchoolModel.FK_RegistrationMaster_CourseMaster" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

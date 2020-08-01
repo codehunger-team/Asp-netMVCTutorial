@@ -1,0 +1,68 @@
+﻿@model SchoolEasy.Web.Models.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main">
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <!-- Sign up form -->
+        <!-- Sign up form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure>
+                            <img src="~/images/signin-image.jpg" alt="sing up image" />
+                        </figure>
+                        <a href="@Url.Action("Register", "Account")" class="signup-image-link">Create an account</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Sign In</h2>
+                        <div class="form-group">
+                            <label for="your_name"><i class="fa fa-user"></i></label>
+                            @Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @placeholder = "User Name" } })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="your_pass"><i class="fa fa-key"></i></label>
+                            @Html.EditorFor(m => m.UserPassword, new { htmlAttributes = new { @placeholder = "Password", @type = "Password" } })
+                            @Html.ValidationMessageFor(m => m.UserPassword, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.CheckBoxFor(m => m.isRemember,  new { @style="display:inline" })Remember me
+                            @Html.ValidationMessageFor(m => m.isRemember, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                        </div>
+
+                        <div class="social-login">
+                            <span class="social-label">Or login with</span>
+                            <ul class="socials">
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+</div>
+<script>
+    $(document).ready(function () {
+        var unauthorized = '@TempData["message"]';
+        if (unauthorized != "") {
+            swal(unauthorized, "", "warning");
+        }
+        else {
+
+        }
+
+    });
+</script>

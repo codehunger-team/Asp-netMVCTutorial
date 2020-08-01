@@ -1,0 +1,80 @@
+﻿@model SchoolEasy.Web.Areas.School.Models.RegistrationEntryModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Registered Student List</h3>
+                    <div class="box-tools">
+                        <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+                            <div class="input-group-btn">
+                                <a href="@Url.Action("Create","RegistrationMaster",new { area = "School"})" class="btn btn-block btn-info">Register Student</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Registration No</th>
+                                <th>Student Name</th>
+                                <th>Father Name</th>
+                                <th>Mobile No</th>
+                                <th>Course</th>
+                                <th>Class</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.RegistredStudentList != null)
+                            {
+                                foreach (var item in Model.RegistredStudentList)
+                                {
+                                    <tr>
+                                        <td>@item.RegistrationNo</td>
+                                        <td>@item.StudentName</td>
+                                        <td>@item.FatherName</td>
+                                        <td>@item.MobileNo</td>
+                                        <td>@item.CourseName</td>
+                                        <td>@item.ClassName</td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", "RegistrationMaster", new { area = "School", id = item.id })" class="btn btn-info btn-xs" title="Edit">
+                                                <i class="fa fa-pencil-square-o "></i>
+                                            </a>
+                                            <a href="@Url.Action("Delete", "RegistrationMaster", new { area = "School", id = item.id })" onclick="return confirm('Are sure wants to delete this Registration No.?');" class="btn btn-danger btn-xs" title="Delete">
+                                                <i class="fa fa-trash "></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- /.row -->
+</section>
+<script>
+    $(document).ready(function () {
+        var unauthorized = '@TempData["message"]';
+        if (unauthorized != "") {
+            swal(unauthorized, "", "success");
+        }
+        else {
+
+        }
+
+    });
+</script>
+
+

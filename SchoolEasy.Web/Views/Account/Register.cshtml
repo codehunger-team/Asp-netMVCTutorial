@@ -1,0 +1,63 @@
+﻿@model SchoolEasy.Web.Models.RegisterModel
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <!-- Sign up form -->
+        <p>@Convert.ToString(TempData["message"])</p>
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <div class="form-group">
+                            <label for="name"><i class="fa fa-institution"></i></label>
+                            @Html.EditorFor(m => m.SchoolName, new { htmlAttributes = new { @placeholder = "School Name" } })
+                            @Html.ValidationMessageFor(m => m.SchoolName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="fa fa-sign-in"></i></label>
+                            @Html.EditorFor(m => m.SchoolEmail, new { htmlAttributes = new { @placeholder = "School Email" } })
+                            @Html.ValidationMessageFor(m => m.SchoolEmail, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            @Html.EditorFor(m => m.SchoolCode, new { htmlAttributes = new { @placeholder = "School Code" } })
+                            @Html.ValidationMessageFor(m => m.SchoolCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="fa fa-address-book"></i></label>
+                            @Html.EditorFor(m => m.SchoolContactNo, new { htmlAttributes = new { @placeholder = "School Contact No" } })
+                            @Html.ValidationMessageFor(m => m.SchoolContactNo, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="fa fa-key"></i></label>
+                            @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @placeholder = "Password", @type = "Password" } })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="fa fa-key"></i></label>
+                            @Html.EditorFor(m => m.ConfirmPassword, new { htmlAttributes = new { @placeholder = "Confirm Password", @type = "Password" } })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                        </div>
+                    </div>
+                    <div class="signup-image">
+                        <figure>
+                            <img src="~/images/signup-image.jpg" alt="sing up image" />
+                        </figure>
+                        <a href="@Url.Action("Login","Accounts")" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+</div>
+

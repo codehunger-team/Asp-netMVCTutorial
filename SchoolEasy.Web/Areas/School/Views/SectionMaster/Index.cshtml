@@ -1,0 +1,67 @@
+﻿@model SchoolEasy.Web.Areas.School.Models.SectionMasterModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Section List</h3>
+                    <div class="box-tools">
+                        <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+                            <div class="input-group-btn">
+                                <a href="@Url.Action("Create","SectionMaster",new { area = "School"})" class="btn btn-block btn-info">Create Section</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Section Name</th>
+                                <th>Class Name</th>
+                                <th>Course Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.SectionList.Count; i++)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(model => model.SectionList[i].SectionName)</td>
+                                    <td>@Html.DisplayFor(model => model.SectionList[i].ClassName)</td>
+                                    <td>@Html.DisplayFor(model => model.SectionList[i].CourseName)</td>
+                                    <td>
+                                        <a href="@Url.Action("Edit","SectionMaster",new { area = "School",SectionId=Model.SectionList[i].SectionId})" class="btn btn-warning"><i class="fa fa-pencil"></i></a>&nbsp;
+                                        <a href="@Url.Action("Delete","SectionMaster",new { area = "School",SectionId=Model.SectionList[i].SectionId})" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!-- /.row -->
+</section>
+<script>
+    $(document).ready(function () {
+        var message = '@TempData["message"]';
+        if (message != "") {
+            swal(message, "", "success");
+        }
+        else {
+
+        }
+
+    });
+</script>
+
